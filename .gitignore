@@ -1,0 +1,17 @@
+# Compiled files
+bin/*
+*.o
+*.out
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+
+# macOS specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Generated files
+output/*.pbm
