@@ -1,0 +1,231 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{minted}
+\usepackage{fancyhdr}
+
+% Define colors
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Configure listings
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% Configure page style
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Guide GitHub CLI}
+\lhead{Dereck Ewane}
+\rfoot{Page \thepage}
+
+\title{Guide Complet: Gestion de GitHub via CLI}
+\author{Dereck Ewane}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction}
+Ce guide détaillé explique comment utiliser GitHub efficacement depuis votre terminal en utilisant GitHub CLI (gh). Il couvre l'installation, la configuration, et toutes les opérations courantes que vous pouvez effectuer.
+
+\section{Installation et Configuration}
+\subsection{Installation de GitHub CLI}
+Pour installer GitHub CLI sur macOS:
+\begin{lstlisting}[language=bash]
+brew install gh
+\end{lstlisting}
+
+\subsection{Authentification}
+Pour vous connecter à votre compte GitHub:
+\begin{lstlisting}[language=bash]
+gh auth login
+\end{lstlisting}
+
+\subsection{Configuration SSH}
+Générer une nouvelle clé SSH:
+\begin{lstlisting}[language=bash]
+ssh-keygen -t ed25519 -C "votre@email.com"
+ssh-add ~/.ssh/id_ed25519
+\end{lstlisting}
+
+Ajouter la clé à GitHub:
+\begin{lstlisting}[language=bash]
+gh ssh-key add ~/.ssh/id_ed25519.pub
+\end{lstlisting}
+
+\section{Gestion des Dépôts}
+\subsection{Création d'un Nouveau Dépôt}
+\begin{lstlisting}[language=bash]
+# Créer un nouveau dépôt
+gh repo create nom-repo --public/--private
+
+# Créer et cloner en même temps
+gh repo create nom-repo --clone
+\end{lstlisting}
+
+\subsection{Cloner un Dépôt}
+\begin{lstlisting}[language=bash]
+gh repo clone utilisateur/nom-repo
+\end{lstlisting}
+
+\subsection{Visualiser un Dépôt}
+\begin{lstlisting}[language=bash]
+# Voir les informations dans le terminal
+gh repo view
+
+# Ouvrir dans le navigateur
+gh repo view --web
+\end{lstlisting}
+
+\section{Gestion du Code}
+\subsection{Opérations Git Basiques}
+\begin{lstlisting}[language=bash]
+# Ajouter des fichiers
+git add .
+
+# Créer un commit
+git commit -m "message du commit"
+
+# Pousser les modifications
+git push origin main
+\end{lstlisting}
+
+\subsection{Branches}
+\begin{lstlisting}[language=bash]
+# Créer une nouvelle branche
+git checkout -b nom-branche
+
+# Changer de branche
+git checkout nom-branche
+
+# Fusionner une branche
+git merge nom-branche
+\end{lstlisting}
+
+\section{Issues et Pull Requests}
+\subsection{Gestion des Issues}
+\begin{lstlisting}[language=bash]
+# Créer une issue
+gh issue create --title "Titre" --body "Description"
+
+# Lister les issues
+gh issue list
+
+# Voir une issue spécifique
+gh issue view numero-issue
+\end{lstlisting}
+
+\subsection{Gestion des Pull Requests}
+\begin{lstlisting}[language=bash]
+# Créer une PR
+gh pr create --title "Titre" --body "Description"
+
+# Lister les PRs
+gh pr list
+
+# Voir une PR spécifique
+gh pr view numero-pr
+
+# Merger une PR
+gh pr merge numero-pr
+\end{lstlisting}
+
+\section{Workflows Avancés}
+\subsection{GitHub Actions}
+\begin{lstlisting}[language=bash]
+# Voir les workflows
+gh workflow list
+
+# Exécuter un workflow
+gh workflow run nom-workflow
+\end{lstlisting}
+
+\subsection{Gestion des Releases}
+\begin{lstlisting}[language=bash]
+# Créer une release
+gh release create v1.0.0 --title "Version 1.0.0"
+
+# Lister les releases
+gh release list
+\end{lstlisting}
+
+\section{Astuces et Bonnes Pratiques}
+\begin{tcolorbox}[title=Conseil 1: Commits Atomiques]
+Faites des commits petits et focalisés sur une seule modification logique.
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Conseil 2: Messages de Commit]
+Écrivez des messages de commit clairs et descriptifs:
+\begin{itemize}
+    \item Première ligne: résumé court (50 caractères max)
+    \item Saut de ligne
+    \item Corps: description détaillée si nécessaire
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Conseil 3: Branches]
+Utilisez des branches pour chaque nouvelle fonctionnalité ou correction:
+\begin{itemize}
+    \item feature/nom-feature
+    \item bugfix/description-bug
+    \item hotfix/description-correction
+\end{itemize}
+\end{tcolorbox}
+
+\section{Résolution des Problèmes Courants}
+\subsection{Problèmes d'Authentification}
+Si vous rencontrez des problèmes d'authentification:
+\begin{lstlisting}[language=bash]
+# Vérifier le statut
+gh auth status
+
+# Se reconnecter
+gh auth login
+\end{lstlisting}
+
+\subsection{Conflits de Merge}
+En cas de conflits:
+\begin{lstlisting}[language=bash]
+# Mettre à jour votre branche
+git pull origin main
+
+# Résoudre les conflits manuellement
+# Puis commit les changements
+git add .
+git commit -m "résolution des conflits"
+\end{lstlisting}
+
+\section{Conclusion}
+GitHub CLI est un outil puissant qui vous permet de gérer efficacement vos projets GitHub directement depuis votre terminal. Avec ce guide, vous avez toutes les commandes essentielles à portée de main.
+
+\end{document}
