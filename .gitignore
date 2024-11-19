@@ -17,4 +17,4 @@ bin/*
 !output/
 output/*
 !output/.gitkeep
-!output/test_file.pbm
+!output/test_file.jpg
